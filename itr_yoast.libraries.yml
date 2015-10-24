@@ -1,0 +1,7 @@
+yoast_seo:
+  remote: https://github.com/Yoast/YoastSEO.js/blob/master/dist/yoast-seo.js
+  js:
+    https://github.com/Yoast/YoastSEO.js/blob/master/dist/yoast-seo.min.js: {
+      type: external,
+      minified: true
+    }

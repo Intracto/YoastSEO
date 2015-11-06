@@ -1,0 +1,5 @@
+name: ITR Yoast SEO
+core: 8.x
+description: Use the power of the Yoast SEO js plugin to upgrade your content
+package: SEO
+type: module

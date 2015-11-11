@@ -1,0 +1,20 @@
+yoast_seo:
+  remote: https://github.com/Yoast/YoastSEO.js
+  version: VERSION
+  license:
+    name: GNU
+    url: https://github.com/Yoast/YoastSEO.js/blob/master/LICENSE
+  js:
+    https://cdn.rawgit.com/Yoast/YoastSEO.js/master/dist/yoast-seo.js: { type: external, minified: false }
+  css:
+    theme:
+      https://cdn.rawgit.com/Yoast/YoastSEO.js/master/dist/yoast-seo.min.css: { type: external, minified: true }
+
+init:
+  js:
+    js/html_scraper.js: {}
+    js/itr_yoast_seo.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings

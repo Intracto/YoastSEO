@@ -1,0 +1,7 @@
+parameters:
+  yoast_seo_service.class: \Drupal\itr_yoast_seo\Service\YoastSEOService
+
+services:
+  yoast_seo_service:
+    class: '%yoast_seo_service.class%'
+    arguments: ['@string_translation']

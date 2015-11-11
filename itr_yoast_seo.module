@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * itr_yoast_seo.module
+ */
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function itr_yoast_seo_entity_type_alter(array &$entity_types) {
+  /** @var $entity_types \Drupal\Core\Entity\EntityTypeInterface[] */
+  $entity_types['node']->setFormClass('default', \Drupal\itr_yoast_seo\Form\NodeForm::class);
+  $entity_types['node']->setFormClass('edit', \Drupal\itr_yoast_seo\Form\NodeForm::class);
+}

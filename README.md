@@ -1,0 +1,5 @@
+- Install Yoast SEO js plugin via Libraries
+- Create custom field that will hold focus keyword and status
+- How to decide on which html the tool should run
+    - Rendered node
+    - Configured fields

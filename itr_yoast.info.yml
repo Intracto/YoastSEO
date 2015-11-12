@@ -1,0 +1,8 @@
+name: ITR Yoast
+type: module
+core: 8.x
+description: Implements the Yoast SEO js plugin
+package: SEO
+
+dependencies:
+  - field

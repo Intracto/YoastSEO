@@ -71,7 +71,10 @@ YoastSEO.ITRScraper = function (args) {
      * @param score
      * @returns {string}
      */
-    this.rateScore = function (score) {
+    this.rateScore = function (score, getClass) {
+        if (getClass === undefined) {
+            getClass = true;
+        }
         var scoreRate;
         switch ( score ) {
             case 0:
@@ -95,7 +98,7 @@ YoastSEO.ITRScraper = function (args) {
                 break;
         }
 
-        var output = "SEO: <strong>" + scoreRate + "</strong>";
+        var output = (getClass) ? scoreRate : "SEO: <strong>" + scoreRate + "</strong>";
 
         return output;
     }
@@ -169,7 +172,8 @@ YoastSEO.ITRScraper.prototype.getAnalyzerInput = function () {
  * @param score
  */
 YoastSEO.ITRScraper.prototype.saveScores = function (score) {
-    document.getElementById(this.config.targets.overall).getElementsByClassName('score_title')[0].innerHTML = this.rateScore(score);
+    document.getElementById(this.config.targets.overall).getElementsByClassName('score_title')[0].innerHTML = this.rateScore(score, false);
+    document.getElementById('score_circle').classList.add(this.rateScore(score));
     document.getElementById(this.config.scoreElement).value = score;
 }
 

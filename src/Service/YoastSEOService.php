@@ -19,7 +19,10 @@ class YoastSEOService {
     $this->translator = $translationManager;
   }
 
-  public function getConfigration($form) {
+  /**
+   * Prepare the necessary configuration for the Yoast SEO plugin
+   */
+  public function getConfigration($form, Node $node) {
     // Retrieve Metatag field
     $form_children = Element::children($form);
     $meta = NULL;
@@ -41,7 +44,7 @@ class YoastSEOService {
     $url = (!empty($form['path']['widget'][0]['alias']['#default_value'])) ? $form['path']['widget'][0]['alias']['#default_value'] : $placeholder['url'];
     $url = (!$url && !empty($form['path']['widget'][0]['alias']['#value'])) ? $form['path']['widget'][0]['alias']['#value'] : $url;
     // @todo replace with keyword on entity
-    $keyword = (!empty($form['itr_yoast_seo']['keyword']['#default_value'])) ? $form['itr_yoast_seo']['keyword']['#default_value'] : '';
+    $keyword = $node->field_node_yoast_seo->get(0)->get('focus_keyword')->getValue();
     $page_title = ($meta) ? $meta['widget'][0]['basic']['title']['#default_value'] : $placeholder['title'];
     $page_title = ($page_title) ? $page_title : $placeholder['title'];
     $page_desc = ($meta) ? $meta['widget'][0]['basic']['description']['#default_value'] : $placeholder['description'];
@@ -62,8 +65,8 @@ class YoastSEOService {
       ],
       'placeholder_text' => $placeholder,
       'field_ids' => [
-        'focus_keyword' => $form['itr_yoast_seo']['keyword']['#attributes']['id'],
-        'seo_status' => $form['itr_yoast_seo']['seo_status']['#attributes']['id'],
+        'focus_keyword' => 'focus_keyword',
+        'seo_status' => 'seo-status',
         'page_title' => ($meta) ? $meta['widget'][0]['basic']['title']['#id'] : '',
         'node_title' => $form['title']['widget'][0]['value']['#id'],
         'description' => ($meta) ? $meta['widget'][0]['basic']['description']['#id'] : '',

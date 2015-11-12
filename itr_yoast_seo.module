@@ -6,19 +6,12 @@
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\Entity\FieldConfig;
+use Drupal\node\Entity\Node;
 use Drupal\node\NodeTypeInterface;
 
-/**
- * Implements hook_entity_type_alter().
- */
-function itr_yoast_seo_entity_type_alter(array &$entity_types) {
-  /** @var $entity_types \Drupal\Core\Entity\EntityTypeInterface[] */
-  $entity_types['node']->setFormClass('default', \Drupal\itr_yoast_seo\Form\NodeForm::class);
-  $entity_types['node']->setFormClass('edit', \Drupal\itr_yoast_seo\Form\NodeForm::class);
-}
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_node_type_form_alter().
  */
 function itr_yoast_seo_form_node_type_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   /** @var NodeTypeInterface $type */
@@ -119,4 +112,31 @@ function itr_yoast_seo_form_field_storage_config_edit_form_alter(&$form, \Drupal
     $form['cardinality_container']['cardinality_number']['#disabled'] = TRUE;
     unset($form['cardinality_container']['cardinality_number']['#states']);
   }
+}
+
+/**
+ * Implements hook_form_node_form_alter().
+ */
+function itr_yoast_seo_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Attach our custom Javascript, but we need the rendered ids for that
+  $form['#after_build'][] = 'itr_yoast_seo_node_form_after_build';
+}
+
+/**
+ * 'after_build' action of the node_form that will attach our custom Javascript
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @return mixed
+ */
+function itr_yoast_seo_node_form_after_build(&$form, FormStateInterface $form_state) {
+  /** @var Node $node */
+  $node = $form_state->getFormObject()->getEntity();
+
+  $yoast_service = \Drupal::getContainer()->get('yoast_seo_service');
+  $form['#attached']['drupalSettings']['itr_yoast_seo'] = $yoast_service->getConfigration($form, $node);
+  $form['#attached']['library'][] = 'itr_yoast_seo/yoast_seo';
+  $form['#attached']['library'][] = 'itr_yoast_seo/init';
+
+  return $form;
 }

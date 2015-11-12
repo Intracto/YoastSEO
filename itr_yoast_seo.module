@@ -3,6 +3,9 @@
  * @file
  * itr_yoast_seo.module
  */
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\node\NodeTypeInterface;
 
 /**
  * Implements hook_entity_type_alter().
@@ -11,4 +14,74 @@ function itr_yoast_seo_entity_type_alter(array &$entity_types) {
   /** @var $entity_types \Drupal\Core\Entity\EntityTypeInterface[] */
   $entity_types['node']->setFormClass('default', \Drupal\itr_yoast_seo\Form\NodeForm::class);
   $entity_types['node']->setFormClass('edit', \Drupal\itr_yoast_seo\Form\NodeForm::class);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function itr_yoast_seo_form_node_type_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  /** @var NodeTypeInterface $type */
+  $type = $form_state->getFormObject()->getEntity();
+
+  // Add our settings as a separate tab
+  $form['yoast_seo'] = [
+    '#type' => 'details',
+    '#title' => t('Yoast SEO settings'),
+    '#group' => 'additional_settings',
+    '#weight' => 20
+  ];
+  $form['yoast_seo']['yoast_enable'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Enable'),
+    '#description' => t('Enable the Yoast SEO plugin for this content type'),
+    '#default_value' => $type->getThirdPartySetting('itr_yoast_seo', 'enabled', FALSE)
+  ];
+
+  // Save our settings onto the entity
+  $form['#entity_builders'][] = 'itr_yoast_seo_form_node_type_form_builder';
+}
+
+/**
+ * Entity builder for the node type form with Yoast SEO options.
+ *
+ * @param $entity_type
+ * @param \Drupal\node\NodeTypeInterface $type
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ */
+function itr_yoast_seo_form_node_type_form_builder($entity_type, NodeTypeInterface $type, &$form, FormStateInterface $form_state) {
+  $type->setThirdPartySetting('itr_yoast_seo', 'enabled', $form_state->getValue('yoast_enable', FALSE));
+
+  // Look for an instance of the field
+  /** @var FieldConfig $instance */
+  $instance = \Drupal\field\Entity\FieldConfig::loadByName('node', $type->get('type'), 'field_node_yoast_seo');
+
+  if ($type->getThirdPartySetting('itr_yoast_seo', 'enabled')) {
+    // Load or create the field storage configuration
+    $field = \Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_node_yoast_seo');
+    if (!$field) {
+      $field = \Drupal\field\Entity\FieldStorageConfig::create([
+        'type' => 'yoast_seo',
+        'field_name' => 'field_node_yoast_seo',
+        'cardinality' => 20,
+        'entity_type' => 'node'
+      ]);
+      $field->save();
+    }
+
+    // Attach an instance to the content type
+    if (!$instance) {
+      $instance = \Drupal\field\Entity\FieldConfig::create([
+        'entity_type' => 'node',
+        'bundle' => $type->get('type'),
+        'field_name' => 'field_node_yoast_seo',
+        'label' => t('Yoast SEO')
+      ]);
+      $instance->save();
+    }
+  }
+  elseif ($instance) {
+    // Remove the instance if the Yoast SEO support has been disabled
+    $instance->delete();
+  }
 }

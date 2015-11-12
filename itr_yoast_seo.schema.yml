@@ -1,0 +1,8 @@
+# Schema for configuration files
+node.type.*.third_pary.itr_yoast_seo:
+  type: mapping
+  label: 'Per-content type Yoast SEO settings'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Enabled'

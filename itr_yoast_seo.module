@@ -68,7 +68,8 @@ function itr_yoast_seo_form_node_type_form_builder($entity_type, NodeTypeInterfa
       $field = \Drupal\field\Entity\FieldStorageConfig::create([
         'type' => 'yoast_seo',
         'field_name' => 'field_node_yoast_seo',
-        'cardinality' => 20,
+        'weight' => 20,
+        'cardinality' => 1,
         'entity_type' => 'node'
       ]);
       $field->save();
@@ -105,5 +106,17 @@ function itr_yoast_seo_form_node_type_form_builder($entity_type, NodeTypeInterfa
     }
   }
 }
+
+/**
+ * Implements hook_form_field_storage_config_edit_form_alter().
+ */
+function itr_yoast_seo_form_field_storage_config_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  if ($form_state->getFormObject()->getEntity()->getType() == 'yoast_seo') {
+    // Disble the cardinality option on the field storage settings form
+    $form['cardinality_container']['#prefix'] = t('Yoast SEO fields must be singular');
+    $form['cardinality_container']['#disabled'] = TRUE;
+    $form['cardinality_container']['cardinality']['#disabled'] = TRUE;
+    $form['cardinality_container']['cardinality_number']['#disabled'] = TRUE;
+    unset($form['cardinality_container']['cardinality_number']['#states']);
   }
 }

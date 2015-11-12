@@ -3,6 +3,7 @@
  * @file
  * itr_yoast_seo.module
  */
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\node\NodeTypeInterface;
@@ -55,6 +56,10 @@ function itr_yoast_seo_form_node_type_form_builder($entity_type, NodeTypeInterfa
   // Look for an instance of the field
   /** @var FieldConfig $instance */
   $instance = \Drupal\field\Entity\FieldConfig::loadByName('node', $type->get('type'), 'field_node_yoast_seo');
+  // Load the entity form display
+  $display_id = sprintf('node.%s.default', $type->get('type'));
+  /** @var EntityFormDisplay $form_display */
+  $form_display = \Drupal\Core\Entity\Entity\EntityFormDisplay::load($display_id);
 
   if ($type->getThirdPartySetting('itr_yoast_seo', 'enabled')) {
     // Load or create the field storage configuration
@@ -79,9 +84,26 @@ function itr_yoast_seo_form_node_type_form_builder($entity_type, NodeTypeInterfa
       ]);
       $instance->save();
     }
+
+    if (!$form_display->getComponent('field_node_yoast_seo')) {
+      $form_display->setComponent('field_node_yoast_seo', [
+        'type' => 'yoast_seo_default',
+        'weight' => 20
+      ]);
+      $form_display->save();
+    }
   }
   elseif ($instance) {
     // Remove the instance if the Yoast SEO support has been disabled
     $instance->delete();
+
+    // Delete the component from the edit form
+    if ($form_display->getComponent('field_node_yoast_seo')) {
+      $form_display
+        ->removeComponent('field_node_yoast_seo')
+        ->save();
+    }
+  }
+}
   }
 }

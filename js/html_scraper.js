@@ -76,25 +76,19 @@ YoastSEO.ITRScraper = function (args) {
             getClass = true;
         }
         var scoreRate;
-        switch ( score ) {
-            case 0:
-                scoreRate = "na";
+        switch (true) {
+            case score <= 4:
+                scoreRate = "bad";
                 break;
-            case 4:
-            case 5:
-                scoreRate = "poor";
-                break;
-            case 6:
-            case 7:
+            case score > 4 && score <= 7:
                 scoreRate = "ok";
                 break;
-            case 8:
-            case 9:
-            case 10:
+            case score > 7:
                 scoreRate = "good";
                 break;
             default:
-                scoreRate = "bad";
+            case score === "na":
+                scoreRate = "na";
                 break;
         }
 
@@ -172,9 +166,18 @@ YoastSEO.ITRScraper.prototype.getAnalyzerInput = function () {
  * @param score
  */
 YoastSEO.ITRScraper.prototype.saveScores = function (score) {
-    document.getElementById(this.config.targets.overall).getElementsByClassName('score_title')[0].innerHTML = this.rateScore(score, false);
-    document.getElementById('score_circle').classList.add(this.rateScore(score));
+    var overallScore = score / 10;
+    document.getElementById(this.config.targets.overall).getElementsByClassName('score_title')[0].innerHTML = this.rateScore(overallScore, false);
     document.getElementById(this.config.scoreElement).value = score;
+
+    var score_circle = document.getElementById('score_circle');
+    var class_length = score_circle.classList.length;
+    while (class_length > 3) {
+        score_circle.classList.remove(score_circle.classList.item(class_length - 1));
+        class_length = score_circle.classList.length;
+    }
+    score_circle.classList.add(this.rateScore(overallScore));
+
 }
 
 /**

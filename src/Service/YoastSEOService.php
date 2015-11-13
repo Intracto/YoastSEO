@@ -7,6 +7,7 @@ namespace Drupal\itr_yoast_seo\Service;
 use Drupal\Core\Render\Element;
 use Drupal\Core\StringTranslation\TranslationManager;
 use Drupal\field\Entity\FieldConfig;
+use Drupal\node\Entity\Node;
 
 class YoastSEOService {
   /**

@@ -1,0 +1,6 @@
+itr_yoast_seo.render_node:
+  path: '/itr-yoast-seo/render-node/{node}'
+  defaults:
+    _controller: '\Drupal\itr_yoast_seo\Controller\RenderController::renderNode'
+  requirements:
+    _permission: 'access content'

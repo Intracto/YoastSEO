@@ -120,11 +120,20 @@ YoastSEO.ITRScraper = function (args) {
  * @returns {};
  */
 YoastSEO.ITRScraper.prototype.getData = function () {
+    var request = new XMLHttpRequest();
+    request.open('GET', this.config.baseRoot + '/itr-yoast-seo/render-node/1', false);
+    request.send();
+
+    var requestData = '';
+    if (request.status === 200) {
+        requestData = JSON.parse(request.responseText);
+    }
+
     var data = {
         keyword: this.getInputData('keyword'),
         meta: this.getInputData('meta'),
         snippetMeta: this.getInputData('meta'),
-        text: '<p>this is a <h2>description page</h2>  title this is a description this is a description this is a description</p>',
+        text: requestData,
         snippetTitle: this.getInputData('title'),
         pageTitle: this.getInputData('title'),
         baseUrl: this.config.baseRoot + '/',

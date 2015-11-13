@@ -40,10 +40,13 @@ class RenderController implements ContainerInjectionInterface {
    * @param \Drupal\node\Entity\Node $node
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    */
-  public function renderNode(Node $node) {
-    $node_view = node_view($node);
-    $output = $this->renderer->render($node_view);
+  public function renderNode(Node $node = null) {
+    $output = '';
+    if ($node) {
+      $node_view = node_view($node);
+      $output = $this->renderer->render($node_view)->jsonSerialize();
+    }
 
-    return new JsonResponse($output->jsonSerialize());
+    return new JsonResponse($output);
   }
 }

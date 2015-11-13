@@ -53,7 +53,6 @@
                 var DrupalScraper = new YoastSEO.ITRScraper(YoastSEO.analyzerArgs);
                 YoastSEO.analyzerArgs.callbacks = {
                     getData: DrupalScraper.getData.bind(DrupalScraper),
-                    getAnalyzerInput: DrupalScraper.getAnalyzerInput.bind(DrupalScraper),
                     bindElementEvents: DrupalScraper.bindElementEvents.bind(DrupalScraper),
                     saveScores: DrupalScraper.saveScores.bind(DrupalScraper)
                 };

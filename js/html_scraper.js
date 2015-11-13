@@ -14,37 +14,6 @@ YoastSEO.ITRScraper = function (args) {
     }
 
     /**
-     * Replace the data of the app with updated values
-     */
-    this.updateRawData = function () {
-        var data = {
-            keyword: this.getInputData('keyword'),
-            meta: this.getInputData('meta'),
-            snippetMeta: this.getInputData('meta'),
-            text: 'this is a description page title this is a description this is a description this is a description',
-            nodeTitle: this.getInputData('nodeTitle'),
-            snippetTitle: this.getInputData('title'),
-            pageTitle: this.getInputData('title'),
-            baseUrl: this.config.baseRoot,
-            url: this.config.baseRoot + this.getInputData('url'),
-            snippetCite: this.getInputData('url')
-        }
-
-        // Placeholder text in snippet if nothing was found.
-        if (data.meta == '') {
-            data.snippetMeta = this.config.placeholderText.description;
-        }
-        if (data.pageTitle == '') {
-            data.snippetTitle = this.config.placeholderText.title;
-        }
-        if (data.snippetCite == '') {
-            data.snippetCite = this.config.placeholderText.url;
-        }
-
-        YoastSEO.app.rawData = data;
-    }
-
-    /**
      * When an input element has been altered, trigger the Yoast SEO app timer
      * @param e
      */
@@ -153,20 +122,6 @@ YoastSEO.ITRScraper.prototype.getData = function () {
     }
 
     return data;
-}
-
-/**
- * Initializes the snippetPreview if it isn't there
- * Otherwise, new data from the inputs is gathered and the preview re-rendered
- */
-YoastSEO.ITRScraper.prototype.getAnalyzerInput = function () {
-    if (typeof  YoastSEO.app.snippetPreview === 'undefined') {
-        YoastSEO.app.init();
-    }
-    else {
-        this.updateRawData();
-        YoastSEO.app.reloadSnippetText();
-    }
 }
 
 /**

@@ -45,7 +45,8 @@
                         url: drupalSettings.itr_yoast_seo.field_ids.url
                     },
                     scoreElement: drupalSettings.itr_yoast_seo.field_ids.seo_status,
-                    baseRoot: drupalSettings.itr_yoast_seo.base_root
+                    baseRoot: drupalSettings.itr_yoast_seo.base_root,
+                    copyCallback: drupalSettings.itr_yoast_seo.copy_callback
                 };
 
                 // Create a new scraper object and map the callbacks

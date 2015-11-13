@@ -121,7 +121,7 @@ YoastSEO.ITRScraper = function (args) {
  */
 YoastSEO.ITRScraper.prototype.getData = function () {
     var request = new XMLHttpRequest();
-    request.open('GET', this.config.baseRoot + '/itr-yoast-seo/render-node/1', false);
+    request.open('GET', this.config.baseRoot + this.config.copyCallback, false);
     request.send();
 
     var requestData = '';

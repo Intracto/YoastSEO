@@ -5,6 +5,7 @@ namespace Drupal\itr_yoast_seo\Service;
 
 
 use Drupal\Core\Render\Element;
+use Drupal\Core\Routing\AccessAwareRouterInterface;
 use Drupal\Core\StringTranslation\TranslationManager;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\node\Entity\Node;
@@ -15,9 +16,21 @@ class YoastSEOService {
    */
   private $translator;
 
+  /**
+   * @var AccessAwareRouterInterface
+   */
+  private $router;
 
-  public function __construct(TranslationManager $translationManager) {
+
+  /**
+   * Constructor
+   *
+   * @param \Drupal\Core\StringTranslation\TranslationManager $translationManager
+   * @param \Drupal\Core\Routing\AccessAwareRouterInterface $router
+   */
+  public function __construct(TranslationManager $translationManager, AccessAwareRouterInterface $router) {
     $this->translator = $translationManager;
+    $this->router = $router;
   }
 
   /**
@@ -44,7 +57,6 @@ class YoastSEOService {
 
     $url = (!empty($form['path']['widget'][0]['alias']['#default_value'])) ? $form['path']['widget'][0]['alias']['#default_value'] : $placeholder['url'];
     $url = (!$url && !empty($form['path']['widget'][0]['alias']['#value'])) ? $form['path']['widget'][0]['alias']['#value'] : $url;
-    // @todo replace with keyword on entity
     $keyword = $node->field_node_yoast_seo->get(0)->get('focus_keyword')->getValue();
     $page_title = ($meta) ? $meta['widget'][0]['basic']['title']['#default_value'] : $placeholder['title'];
     $page_title = ($page_title) ? $page_title : $placeholder['title'];
@@ -73,7 +85,8 @@ class YoastSEOService {
         'description' => ($meta) ? $meta['widget'][0]['basic']['description']['#id'] : '',
         'url' => $form['path']['widget'][0]['alias']['#id'],
       ],
-      'base_root' => $base_root
+      'base_root' => $base_root,
+      'copy_callback' => $this->router->generate('itr_yoast_seo.render_node', ['node' => $node->id()])
     ];
 
     return $config;

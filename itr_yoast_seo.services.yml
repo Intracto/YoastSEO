@@ -4,4 +4,6 @@ parameters:
 services:
   yoast_seo_service:
     class: '%yoast_seo_service.class%'
-    arguments: ['@string_translation']
+    arguments:
+      - @string_translation
+      - @router

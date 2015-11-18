@@ -1,0 +1,3 @@
+#snippet_preview *[contenteditable="true"]:hover {
+    background: #bbdefb url("https://cdn.rawgit.com/Yoast/YoastSEO.js/master/dist/images/editicon.png") no-repeat right top;
+}

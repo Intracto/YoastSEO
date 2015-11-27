@@ -1,5 +1,5 @@
 parameters:
-  yoast_seo_service.class: \Drupal\itr_yoast_seo\Service\YoastSEOService
+  yoast_seo_service.class: \Drupal\itr_yoast_seo\Service\YoastConfigService
 
 services:
   yoast_seo_service:

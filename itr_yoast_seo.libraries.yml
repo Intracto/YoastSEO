@@ -12,7 +12,7 @@ yoast_seo:
 
 init:
   js:
-    js/html_scraper.js: {}
+    js/itr_yoast_seo.drupal_scraper.js: {}
     js/itr_yoast_seo.js: {}
   css:
     theme:

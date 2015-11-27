@@ -10,7 +10,7 @@ use Drupal\Core\StringTranslation\TranslationManager;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\node\Entity\Node;
 
-class YoastSEOService {
+class YoastConfigService {
   /**
    * @var TranslationManager
    */
@@ -35,6 +35,11 @@ class YoastSEOService {
 
   /**
    * Prepare the necessary configuration for the Yoast SEO plugin
+   *
+   * @param $form
+   * @param \Drupal\node\Entity\Node $node
+   *
+   * @return array
    */
   public function getConfigration($form, Node $node) {
     // Retrieve Metatag field
@@ -62,7 +67,6 @@ class YoastSEOService {
     $page_title = ($page_title) ? $page_title : $placeholder['title'];
     $page_desc = ($meta) ? $meta['widget'][0]['basic']['description']['#default_value'] : $placeholder['description'];
     $page_desc = ($page_desc) ? $page_desc : $placeholder['description'];
-    global $base_root;
 
     $config = [
       'targets' => [
@@ -80,15 +84,21 @@ class YoastSEOService {
       'field_ids' => [
         'focus_keyword' => 'focus_keyword',
         'seo_status' => 'seo-status',
+        'seo_content' => 'seo-content',
         'page_title' => ($meta) ? $meta['widget'][0]['basic']['title']['#id'] : '',
         'node_title' => $form['title']['widget'][0]['value']['#id'],
         'description' => ($meta) ? $meta['widget'][0]['basic']['description']['#id'] : '',
         'url' => $form['path']['widget'][0]['alias']['#id'],
       ],
-      'base_root' => $base_root,
-      'copy_callback' => $this->router->generate('itr_yoast_seo.render_node', ['node' => $node->id()])
+      'base_root' => $this->getBaseRoot(),
     ];
 
     return $config;
+  }
+
+  private function getBaseRoot() {
+    global $base_root;
+
+    return $base_root;
   }
 }

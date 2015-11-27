@@ -3,10 +3,14 @@
  * @file
  * itr_yoast_seo.module
  */
+
+
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\node\Entity\Node;
+use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeTypeInterface;
 
 
@@ -118,8 +122,15 @@ function itr_yoast_seo_form_field_storage_config_edit_form_alter(&$form, \Drupal
  * Implements hook_form_node_form_alter().
  */
 function itr_yoast_seo_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-  // Attach our custom Javascript, but we need the rendered ids for that
-  $form['#after_build'][] = 'itr_yoast_seo_node_form_after_build';
+  /** @var EntityInterface $node */
+  $node = $form_state->getFormObject()->getEntity();
+  /** @var NodeType $type */
+  $type = NodeType::load($node->bundle());
+
+  if ($type->getThirdPartySetting('itr_yoast_seo', 'enabled')) {
+    // Attach our custom Javascript, but we need the rendered ids for that
+    $form['#after_build'][] = 'itr_yoast_seo_node_form_after_build';
+  }
 }
 
 /**

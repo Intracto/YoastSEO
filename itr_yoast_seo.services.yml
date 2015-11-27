@@ -1,10 +1,10 @@
 parameters:
-  yoast_seo_service.class: \Drupal\itr_yoast_seo\Service\YoastConfigService
+  yoast.config_service.class: \Drupal\itr_yoast_seo\Service\YoastConfigService
   entity.renderer.class: \Drupal\itr_yoast_seo\Service\EntityRenderService
 
 services:
-  yoast_seo_service:
-    class: '%yoast_seo_service.class%'
+  yoast.config_service:
+    class: '%yoast.config_service.class%'
     arguments:
       - @string_translation
       - @router

@@ -144,7 +144,7 @@ function itr_yoast_seo_node_form_after_build(&$form, FormStateInterface $form_st
   /** @var Node $node */
   $node = $form_state->getFormObject()->getEntity();
 
-  $yoast_service = \Drupal::getContainer()->get('yoast_seo_service');
+  $yoast_service = \Drupal::getContainer()->get('yoast.config_service');
   $form['#attached']['drupalSettings']['itr_yoast_seo'] = $yoast_service->getConfigration($form, $node);
   $form['#attached']['library'][] = 'itr_yoast_seo/yoast_seo';
   $form['#attached']['library'][] = 'itr_yoast_seo/init';

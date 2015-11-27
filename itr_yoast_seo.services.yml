@@ -1,5 +1,6 @@
 parameters:
   yoast_seo_service.class: \Drupal\itr_yoast_seo\Service\YoastConfigService
+  entity.renderer.class: \Drupal\itr_yoast_seo\Service\EntityRenderService
 
 services:
   yoast_seo_service:
@@ -7,3 +8,9 @@ services:
     arguments:
       - @string_translation
       - @router
+
+  entity.renderer:
+    class: '%entity.renderer.class%'
+    arguments:
+      - @entity_type.manager
+      - @renderer

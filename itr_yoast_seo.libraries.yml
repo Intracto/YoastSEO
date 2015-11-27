@@ -5,10 +5,17 @@ yoast_seo:
     name: GNU
     url: https://github.com/Yoast/YoastSEO.js/blob/master/LICENSE
   js:
-    https://cdn.rawgit.com/Yoast/YoastSEO.js/master/dist/yoast-seo.js: { type: external, minified: false }
+    https://cdn.rawgit.com/Yoast/YoastSEO.js/master/dist/yoast-seo.min.js: { type: external, minified: true }
   css:
     theme:
       https://cdn.rawgit.com/Yoast/YoastSEO.js/master/dist/yoast-seo.min.css: { type: external, minified: true }
+
+commands:
+  version: VERSION
+  js:
+    js/itr_yoast_seo.commands.js: {}
+  dependencies:
+    - core/drupal.ajax
 
 init:
   js:

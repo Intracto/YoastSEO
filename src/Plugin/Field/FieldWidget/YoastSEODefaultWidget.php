@@ -4,13 +4,13 @@
 namespace Drupal\itr_yoast_seo\Plugin\Field\FieldWidget;
 
 
+use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Field\Annotation\FieldWidget;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\itr_yoast_seo\Service\YoastSEOService;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\itr_yoast_seo\Ajax\RenderCommand;
 
 /**
  * Class YoastSEODefaultWidget
@@ -52,7 +52,10 @@ class YoastSEODefaultWidget extends WidgetBase {
       ],
       'circle' => [
         '#type' => 'container',
-        '#attributes' => ['id' => 'score_circle', 'class' => ['wpseo-score-icon']]
+        '#attributes' => [
+          'id' => 'score_circle',
+          'class' => ['wpseo-score-icon']
+        ]
       ]
     ];
 
@@ -77,9 +80,47 @@ class YoastSEODefaultWidget extends WidgetBase {
     $element['status'] = [
       '#type' => 'hidden',
       '#default_value' => $items[$delta]->status,
-      '#attributes' => ['id' => 'seo-status']
+      '#attributes' => ['id' => 'seo-status'],
     ];
 
+    // Allow a hidden html element to set the preview of the node
+    $element['content'] = [
+      '#type' => 'hidden',
+      '#attributes' => ['id' => 'seo-content'],
+      '#ajax' => [
+        'callback' => [$this, 'renderPreview'],
+        'selector' => '#seo-content',
+        'event' => 'change'
+      ]
+    ];
+
+    $element['preview_wrapper'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Preview'),
+      'preview' => [
+        '#type' => 'container',
+        '#attributes' => ['id' => 'preview--wrapper']
+      ]
+    ];
+
+    $form['#attached']['library'][] = 'itr_yoast_seo/commands';
+
     return $element;
+  }
+
+  /**
+   * Ajax callback that will render the node
+   *
+   * @param array $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   */
+  public function renderPreview(array &$form, FormStateInterface $form_state) {
+    $ajax_response = new AjaxResponse();
+
+    $render_command = new RenderCommand('#seo-content', 'seo-content', $form_state);
+    $ajax_response->addCommand($render_command);
+
+    return $ajax_response;
   }
 }

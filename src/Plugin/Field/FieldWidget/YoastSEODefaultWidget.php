@@ -42,6 +42,21 @@ class YoastSEODefaultWidget extends WidgetBase {
       '#attributes' => ['id' => 'focus_keyword']
     ];
 
+    // Allow a hidden html element to set the preview of the node
+    $element['content'] = [
+      '#type' => 'hidden',
+      '#attributes' => ['id' => 'seo-content'],
+      '#ajax' => [
+        'callback' => [$this, 'renderPreview'],
+        'selector' => '#seo-content',
+        'event' => 'seo-content-refresh',
+        'progress' => [
+          'type' => 'throbber',
+          'message' => $this->t('Calculating score...')
+        ]
+      ]
+    ];
+
     // Score
     $element['overall'] = [
       '#type' => 'container',
@@ -81,17 +96,6 @@ class YoastSEODefaultWidget extends WidgetBase {
       '#type' => 'hidden',
       '#default_value' => $items[$delta]->status,
       '#attributes' => ['id' => 'seo-status'],
-    ];
-
-    // Allow a hidden html element to set the preview of the node
-    $element['content'] = [
-      '#type' => 'hidden',
-      '#attributes' => ['id' => 'seo-content'],
-      '#ajax' => [
-        'callback' => [$this, 'renderPreview'],
-        'selector' => '#seo-content',
-        'event' => 'change'
-      ]
     ];
 
     $element['preview_wrapper'] = [

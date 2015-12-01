@@ -11,18 +11,32 @@ DrupalScraper = function (args) {
         return jQuery('#' + this.config.fields[fieldId]).val();
     };
 
-    /**
-     * When an input element has been altered, trigger the YoastSEO app
-     *
-     * @param e
-     */
-    this.renewData = function () {
-        jQuery('#' + YoastSEO.analyzerArgs.contentElement).trigger('change');
-        YoastSEO.app.analyzeTimer();
+    this.triggerContentRefresh = function () {
+        var $contentTrigger = jQuery('#' + YoastSEO.analyzerArgs.contentElement);
+        $contentTrigger.data('seo-content', '');
+
+        this.triggerEvent(YoastSEO.analyzerArgs.contentElement, 'seo-content-refresh');
     };
 
     /**
-     * Add a listener to every input element
+     * When an input element has been altered, trigger the hidden content refresh
+     * This function is identical to YoastSEO.App.analyzeTimer, but instead of calling the 'getData'-function,
+     * we trigger a Drupal ajax event that will re-render the current node.
+     *
+     * The listener attached to the 'refresh'-event will finally call the YoastSEO.App.refresh which will summon
+     * all the necessary function to retrieve the remaining data.
+     *
+     * @param e
+     */
+    this.renewData = function (e) {
+        clearTimeout(window.timer);
+        setTimeout(function () {
+            window.YoastSEO.app.triggerContentRefresh();
+        }.bind(window), YoastSEO.analyzerArgs.typeDelay);
+    };
+
+    /**
+     * Add a listener to every input element and the 'refreshed' event
      */
     this.bindInputElements = function () {
         var self = this;
@@ -33,6 +47,7 @@ DrupalScraper = function (args) {
                 $field.on('input', self.renewData);
             }
         });
+        jQuery(document).on('seo-content-refreshed', YoastSEO.App.refresh);
     };
 
     /**
@@ -72,15 +87,19 @@ DrupalScraper = function (args) {
      *
      * @param field
      */
-    this.triggerEvent = function (field) {
+    this.triggerEvent = function (field, event) {
         var $field = jQuery('#' + field);
+        if (event == undefined) {
+            event = 'input'
+        }
+
         if ('createevent' in document) {
             var e = document.createEvent('HTMLEvents');
-            e.initEvent('input', false, true);
+            e.initEvent(event, false, true);
             $field.dispatchEvent(e);
         }
         else {
-            $field.trigger('input');
+            $field.trigger(event);
         }
     };
 };
@@ -91,14 +110,15 @@ DrupalScraper = function (args) {
  * @returns {}
  */
 DrupalScraper.prototype.getData = function () {
-    var seoContent = jQuery('#' + YoastSEO.analyzerArgs.contentElement).data('seo-content');
-    jQuery('#preview--wrapper').html(seoContent);
+    var $contentTrigger = jQuery('#' + YoastSEO.analyzerArgs.contentElement);
+    var text = $contentTrigger.data('seo-content');
+    jQuery('#preview--wrapper').html(text);
 
     var data = {
         keyword: this.getInputData('keyword'),
         meta: this.getInputData('meta'),
         snippetMeta: this.getInputData('meta'),
-        text: seoContent,
+        text: text,
         snippetTitle: this.getInputData('title'),
         pageTitle: this.getInputData('title'),
         baseUrl: this.config.baseRoot + '/',

@@ -1,15 +1,16 @@
-(function (Drupal, drupalSettings) {
+(function ($, Drupal, drupalSettings) {
 
     'use strict';
 
     Drupal.behaviors.itr_yoast_seo = {
+
         attach: function (context) {
-            if (typeof drupalSettings.itr_yoast_seo != 'undefined') {
+            if ((typeof window.YoastSEO.app == 'undefined') && (typeof drupalSettings.itr_yoast_seo != 'undefined')) {
                 // Create analyzer arguments
                 YoastSEO.analyzerArgs = {
                     analyzer: true,
                     snippetPreview: true,
-                    typeDelay: 300,
+                    typeDelay: 500,
                     typeDelayStep: 100,
                     maxTypeDelay: 1500,
                     dynamicDelay: true,
@@ -47,23 +48,28 @@
                     baseRoot: drupalSettings.itr_yoast_seo.base_root
                 };
 
-                // Create a new scraper object and map the callbacks
-                var scraper = new DrupalScraper(YoastSEO.analyzerArgs);
-                YoastSEO.analyzerArgs.callbacks = {
-                    getData: scraper.getData.bind(scraper),
-                    bindElementEvents: scraper.bindElementEvents.bind(scraper),
-                    saveScores: scraper.saveScores.bind(scraper)
-                };
-
-                // Instantiate a new YoastSEO app and make it globally accessible
-                window.YoastSEO.app = new YoastSEO.App(YoastSEO.analyzerArgs);
-
-                // Parse the input from snippet preview fields to their corresponding metatag and path fields
-                scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.title, YoastSEO.analyzerArgs.fields.title);
-                scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.url, YoastSEO.analyzerArgs.fields.url);
-                scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.meta, YoastSEO.analyzerArgs.fields.meta);
+                $(document).on('seo-content-refreshed', this.initYoast);
+                $('#' + YoastSEO.analyzerArgs.contentElement).trigger('seo-content-refresh');
             }
+        },
+
+        initYoast: function (e) {
+            // Create a new scraper object and map the callbacks
+            var scraper = new DrupalScraper(YoastSEO.analyzerArgs);
+            YoastSEO.analyzerArgs.callbacks = {
+                getData: scraper.getData.bind(scraper),
+                bindElementEvents: scraper.bindElementEvents.bind(scraper),
+                saveScores: scraper.saveScores.bind(scraper)
+            };
+
+            // Instantiate a new YoastSEO app and make it globally accessible
+            window.YoastSEO.app = new YoastSEO.App(YoastSEO.analyzerArgs);
+
+            // Parse the input from snippet preview fields to their corresponding metatag and path fields
+            scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.title, YoastSEO.analyzerArgs.fields.title);
+            scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.url, YoastSEO.analyzerArgs.fields.url);
+            scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.meta, YoastSEO.analyzerArgs.fields.meta);
         }
     }
 
-}(Drupal, drupalSettings));
+}(jQuery, Drupal, drupalSettings));

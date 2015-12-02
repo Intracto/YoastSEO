@@ -31,8 +31,8 @@ DrupalScraper = function (args) {
     this.renewData = function (e) {
         clearTimeout(window.timer);
         setTimeout(function () {
-            window.YoastSEO.app.triggerContentRefresh();
-        }.bind(window), YoastSEO.analyzerArgs.typeDelay);
+            window.scraper.triggerContentRefresh()
+        }, YoastSEO.analyzerArgs.typeDelay);
     };
 
     /**

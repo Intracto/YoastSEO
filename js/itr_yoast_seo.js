@@ -10,9 +10,8 @@
                 YoastSEO.analyzerArgs = {
                     analyzer: true,
                     snippetPreview: true,
-                    typeDelay: 500,
-                    typeDelayStep: 100,
-                    maxTypeDelay: 1500,
+                    typeDelay: 1000,
+                    typeDelayStep: 300,
                     dynamicDelay: true,
                     multiKeyword: false,
                     targets: {
@@ -64,6 +63,7 @@
 
             // Instantiate a new YoastSEO app and make it globally accessible
             window.YoastSEO.app = new YoastSEO.App(YoastSEO.analyzerArgs);
+            window.scraper = scraper;
 
             // Parse the input from snippet preview fields to their corresponding metatag and path fields
             scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.title, YoastSEO.analyzerArgs.fields.title);

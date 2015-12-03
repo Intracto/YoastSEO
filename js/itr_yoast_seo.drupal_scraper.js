@@ -126,8 +126,8 @@ DrupalScraper.prototype.getData = function () {
         text: text,
         snippetTitle: this.getInputData('title'),
         pageTitle: this.getInputData('title'),
-        baseUrl: this.config.baseRoot + '/',
-        url: this.config.baseRoot + '/' + this.getInputData('url'),
+        baseUrl: this.config.baseRoot,
+        url: this.config.baseRoot + this.getInputData('url'),
         snippetCite: this.getInputData('url')
     }
 

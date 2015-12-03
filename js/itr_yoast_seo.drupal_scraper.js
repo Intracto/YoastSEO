@@ -11,6 +11,9 @@ DrupalScraper = function (args) {
         return jQuery('#' + this.config.fields[fieldId]).val();
     };
 
+    /**
+     * Trigger the hidden element for an updated version of the rendered node
+     */
     this.triggerContentRefresh = function () {
         var $contentTrigger = jQuery('#' + YoastSEO.analyzerArgs.contentElement);
         $contentTrigger.data('seo-content', '');
@@ -31,7 +34,7 @@ DrupalScraper = function (args) {
     this.renewData = function (e) {
         clearTimeout(window.timer);
         setTimeout(function () {
-            window.scraper.triggerContentRefresh()
+            window.scraper.triggerContentRefresh();
         }, YoastSEO.analyzerArgs.typeDelay);
     };
 
@@ -47,7 +50,9 @@ DrupalScraper = function (args) {
                 $field.on('input', self.renewData);
             }
         });
-        jQuery(document).on('seo-content-refreshed', YoastSEO.App.refresh);
+        jQuery(document).on('seo-content-refreshed', function (e) {
+            window.YoastSEO.app.refresh();
+        });
     };
 
     /**

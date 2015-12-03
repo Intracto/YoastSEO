@@ -53,22 +53,24 @@
         },
 
         initYoast: function (e) {
-            // Create a new scraper object and map the callbacks
-            var scraper = new DrupalScraper(YoastSEO.analyzerArgs);
-            YoastSEO.analyzerArgs.callbacks = {
-                getData: scraper.getData.bind(scraper),
-                bindElementEvents: scraper.bindElementEvents.bind(scraper),
-                saveScores: scraper.saveScores.bind(scraper)
-            };
+            if (typeof window.scraper == 'undefined') {
+                // Create a new scraper object and map the callbacks
+                var scraper = new DrupalScraper(YoastSEO.analyzerArgs);
+                YoastSEO.analyzerArgs.callbacks = {
+                    getData: scraper.getData.bind(scraper),
+                    bindElementEvents: scraper.bindElementEvents.bind(scraper),
+                    saveScores: scraper.saveScores.bind(scraper)
+                };
 
-            // Instantiate a new YoastSEO app and make it globally accessible
-            window.YoastSEO.app = new YoastSEO.App(YoastSEO.analyzerArgs);
-            window.scraper = scraper;
+                // Instantiate a new YoastSEO app and make it globally accessible
+                window.YoastSEO.app = new YoastSEO.App(YoastSEO.analyzerArgs);
+                window.scraper = scraper;
 
-            // Parse the input from snippet preview fields to their corresponding metatag and path fields
-            scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.title, YoastSEO.analyzerArgs.fields.title);
-            scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.url, YoastSEO.analyzerArgs.fields.url);
-            scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.meta, YoastSEO.analyzerArgs.fields.meta);
+                // Parse the input from snippet preview fields to their corresponding metatag and path fields
+                scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.title, YoastSEO.analyzerArgs.fields.title);
+                scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.url, YoastSEO.analyzerArgs.fields.url);
+                scraper.parseSnippetData(YoastSEO.analyzerArgs.snippetFields.meta, YoastSEO.analyzerArgs.fields.meta);
+            }
         }
     }
 

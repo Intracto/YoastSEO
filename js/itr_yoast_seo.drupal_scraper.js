@@ -43,6 +43,7 @@ DrupalScraper = function (args) {
      */
     this.bindInputElements = function () {
         var self = this;
+        // Bind the 'input' event to the pre-configured fields (url, keyword etc.)
         jQuery.each(this.config.fields, function (fieldKey) {
             if (typeof self.config.fields[fieldKey] != 'undefined') {
                 var $field = jQuery('#' + self.config.fields[fieldKey]);
@@ -50,6 +51,13 @@ DrupalScraper = function (args) {
                 $field.on('input', self.renewData);
             }
         });
+        // Bind the 'change' event to all CKEDITOR instances
+        if (typeof CKEDITOR != 'undefined') {
+            for (var i in CKEDITOR.instances) {
+                CKEDITOR.instances[i].on('change', this.renewData);
+            }
+        }
+        // Bind the 'seo-content-refreshed' event in order to trigger Yoast
         jQuery(document).on('seo-content-refreshed', function (e) {
             window.YoastSEO.app.refresh();
         });

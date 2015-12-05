@@ -46,6 +46,7 @@ class EntityRenderService {
    */
   public function previewEntity(EntityInterface $entity, array $form, FormStateInterface $form_state) {
     $this->entity = $entity;
+    $this->entity->in_preview = TRUE;
 
     // Remove button and internal Form API values from sent values.
     $form_state->cleanValues();

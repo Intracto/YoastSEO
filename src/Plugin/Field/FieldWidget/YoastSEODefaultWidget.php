@@ -6,7 +6,6 @@ namespace Drupal\itr_yoast_seo\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Field\Annotation\FieldWidget;
-use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -122,7 +121,7 @@ class YoastSEODefaultWidget extends WidgetBase {
   public function renderPreview(array &$form, FormStateInterface $form_state) {
     $ajax_response = new AjaxResponse();
 
-    $render_command = new RenderCommand('#seo-content', 'seo-content', $form_state);
+    $render_command = new RenderCommand('#seo-content', 'seo-content', $form, $form_state);
     $ajax_response->addCommand($render_command);
 
     return $ajax_response;

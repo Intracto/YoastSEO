@@ -55,9 +55,9 @@ class YoastConfigService {
     }
 
     $placeholder = [
-        'title' => $this->translator->translate('Place click here to alter your page meta title'),
+        'title' => $this->translator->translate('Please click here to alter your page meta title'),
         'description' => $this->translator->translate('Please click here and alter your page meta description'),
-        'url' => $this->translator->translate('example-post')
+        'url' => '/' . $this->translator->translate('example-post')
     ];
 
     $url = (!empty($form['path']['widget'][0]['alias']['#default_value'])) ? $form['path']['widget'][0]['alias']['#default_value'] : $placeholder['url'];

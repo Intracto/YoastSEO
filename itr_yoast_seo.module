@@ -7,6 +7,7 @@
 
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\node\Entity\Node;
@@ -21,6 +22,18 @@ function itr_yoast_seo_form_node_type_form_alter(&$form, FormStateInterface $for
   /** @var NodeTypeInterface $type */
   $type = $form_state->getFormObject()->getEntity();
 
+
+  $field_manager = \Drupal::getContainer()->get('entity_field.manager');
+  $field_config = $field_manager->getFieldDefinitions('node', $type->get('type'));
+  $checkbox_disabled = TRUE;
+  $description = t('The Yoast SEO plugin requires a Metatag field.');
+  foreach ($field_config as $config) { /** @var BaseFieldDefinition $config */
+    if ($config->getType() == 'metatag') {
+      $checkbox_disabled = FALSE;
+      $description = t('Enable the Yoast SEO plugin for this content type');
+    }
+  }
+
   // Add our settings as a separate tab
   $form['yoast_seo'] = [
     '#type' => 'details',
@@ -31,8 +44,9 @@ function itr_yoast_seo_form_node_type_form_alter(&$form, FormStateInterface $for
   $form['yoast_seo']['yoast_enable'] = [
     '#type' => 'checkbox',
     '#title' => t('Enable'),
-    '#description' => t('Enable the Yoast SEO plugin for this content type'),
-    '#default_value' => $type->getThirdPartySetting('itr_yoast_seo', 'enabled', FALSE)
+    '#description' => $description,
+    '#default_value' => $type->getThirdPartySetting('itr_yoast_seo', 'enabled', FALSE),
+    '#disabled' => $checkbox_disabled
   ];
 
   // Save our settings onto the entity

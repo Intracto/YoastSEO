@@ -125,7 +125,6 @@ DrupalScraper = function (args) {
 DrupalScraper.prototype.getData = function () {
     var $contentTrigger = jQuery('#' + YoastSEO.analyzerArgs.contentElement);
     var text = $contentTrigger.data('seo-content');
-    jQuery('#preview--wrapper').html(text);
 
     var data = {
         keyword: this.getInputData('keyword'),

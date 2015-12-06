@@ -97,15 +97,6 @@ class YoastSEODefaultWidget extends WidgetBase {
       '#attributes' => ['id' => 'seo-status'],
     ];
 
-    $element['preview_wrapper'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Preview'),
-      'preview' => [
-        '#type' => 'container',
-        '#attributes' => ['id' => 'preview--wrapper']
-      ]
-    ];
-
     $form['#attached']['library'][] = 'itr_yoast_seo/commands';
 
     return $element;

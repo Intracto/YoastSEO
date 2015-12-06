@@ -19,7 +19,7 @@ use Drupal\Core\TypedData\DataDefinition;
  *   id = "yoast_seo",
  *   label = "Yoast SEO",
  *   description = @Translation("Stores the keyword and the status of the Yoast SEO result"),
- *   category = @Translation("Custom"),
+ *   category = @Translation("General"),
  *   default_widget = "yoast_seo_default"
  * )
  */

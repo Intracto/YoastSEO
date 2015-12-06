@@ -47,7 +47,7 @@ class YoastConfigService {
     $meta = NULL;
     foreach ($form_children as $child_key) {
       if (!empty($form[$child_key]['widget']['#field_name'])) {
-        $field_config = FieldConfig::loadByName('node', 'article', $form[$child_key]['widget']['#field_name']);
+        $field_config = FieldConfig::loadByName('node', $node->bundle(), $form[$child_key]['widget']['#field_name']);
         if ($field_config && $field_config->getType() == 'metatag') {
           $meta = $form[$child_key];
         }

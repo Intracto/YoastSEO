@@ -20,7 +20,8 @@ use Drupal\Core\TypedData\DataDefinition;
  *   label = "Yoast SEO",
  *   description = @Translation("Stores the keyword and the status of the Yoast SEO result"),
  *   category = @Translation("General"),
- *   default_widget = "yoast_seo_default"
+ *   default_widget = "yoast_seo_default",
+ *   no_ui = TRUE
  * )
  */
 class YoastSEOItem extends FieldItemBase {

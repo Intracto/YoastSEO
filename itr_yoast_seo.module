@@ -119,6 +119,22 @@ function itr_yoast_seo_form_node_type_form_builder($entity_type, NodeTypeInterfa
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function itr_yoast_seo_form_field_config_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  /** @var FieldConfig $field_config */
+  $field_config = $form_state->getFormObject()->getEntity();
+  if ($field_config->getType() == 'yoast_seo') {
+    drupal_set_message(t('You\'re not supposed to edit these settings, so I disabled them for you.'), 'warning');
+    $form['label']['#disabled'] = TRUE;
+    $form['description']['#disabled'] = TRUE;
+    $form['required']['#disabled'] = TRUE;
+    $form['default_value']['#access'] = FALSE;
+    $form['actions']['#access'] = FALSE;
+  }
+}
+
+/**
  * Implements hook_form_field_storage_config_edit_form_alter().
  */
 function itr_yoast_seo_form_field_storage_config_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {

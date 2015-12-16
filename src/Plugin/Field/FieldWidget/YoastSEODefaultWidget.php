@@ -38,7 +38,8 @@ class YoastSEODefaultWidget extends WidgetBase {
       '#type' => 'textfield',
       '#default_value' => $items[$delta]->focus_keyword,
       '#title' => $this->t('Focus keyword'),
-      '#attributes' => ['id' => 'focus_keyword']
+      '#attributes' => ['id' => 'focus_keyword'],
+      '#required' => TRUE
     ];
 
     // Allow a hidden html element to set the preview of the node
@@ -95,6 +96,16 @@ class YoastSEODefaultWidget extends WidgetBase {
       '#type' => 'hidden',
       '#default_value' => $items[$delta]->status,
       '#attributes' => ['id' => 'seo-status'],
+    ];
+
+    // Preview
+    $element['preview_wrapper'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Preview'),
+      'preview' => [
+        '#type' => 'container',
+        '#attributes' => ['id' => 'preview']
+      ]
     ];
 
     $form['#attached']['library'][] = 'yoast_seo/commands';

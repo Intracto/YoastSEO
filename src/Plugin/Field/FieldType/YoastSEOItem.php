@@ -34,6 +34,7 @@ class YoastSEOItem extends FieldItemBase {
     $properties['focus_keyword'] = DataDefinition::create('string')
       ->setLabel(t('Focus keyword'));
     $properties['status'] = DataDefinition::create('integer')
+      ->setSetting('unsigned', FALSE)
       ->setLabel(t('Status'));
 
     return $properties;

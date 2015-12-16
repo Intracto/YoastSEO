@@ -17,9 +17,8 @@ This module is an upgrade of the Drupal 7 version, based on the work of [GoalGor
 1. Download the module from http://drupal.org/project/yoast_seo or download with drush (drush dl yoast_seo).
 2. Make sure to install and enable the module, as wel as the Metatag module.
 3. Enable the plugin on your content type settings page
-4. Added a 'yoast_seo'-field
-5. Set a focus keyword, page title and description when editing a piece of content.
-6. Start writing your content and get real-time feedback on it's search engine performance with page analysis.
+4. Set a focus keyword, page title and description when editing a piece of content.
+5. Start writing your content and get real-time feedback on it's search engine performance with page analysis.
 
 ## Developer information / architecture
 

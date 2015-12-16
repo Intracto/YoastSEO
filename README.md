@@ -1,4 +1,4 @@
-# ITR Yoast SEO
+# Yoast SEO
 ---------------
 
 ## Features
@@ -14,7 +14,7 @@ This module is an upgrade of the Drupal 7 version, based on the work of [GoalGor
 
 ## Installation & configuration
 
-1. Download the module from http://drupal.org/project/itr_yoast_seo or download with drush (drush dl itr_yoast_seo).
+1. Download the module from http://drupal.org/project/yoast_seo or download with drush (drush dl yoast_seo).
 2. Make sure to install and enable the module, as wel as the Metatag module.
 3. Enable the plugin on your content type settings page
 4. Added a 'yoast_seo'-field

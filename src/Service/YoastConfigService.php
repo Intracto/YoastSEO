@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Drupal\itr_yoast_seo\Service;
+namespace Drupal\yoast_seo\Service;
 
 
 use Drupal\Core\Render\Element;

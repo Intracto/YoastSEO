@@ -1,6 +1,6 @@
 parameters:
-  yoast.config_service.class: \Drupal\itr_yoast_seo\Service\YoastConfigService
-  entity.renderer.class: \Drupal\itr_yoast_seo\Service\EntityRenderService
+  yoast.config_service.class: \Drupal\yoast_seo\Service\YoastConfigService
+  entity.renderer.class: \Drupal\yoast_seo\Service\EntityRenderService
 
 services:
   yoast.config_service:

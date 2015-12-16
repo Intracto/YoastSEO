@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * itr_yoast_seo.module
+ * yoast_seo.module
  */
 
 
@@ -18,7 +18,7 @@ use Drupal\node\NodeTypeInterface;
 /**
  * Implements hook_form_node_type_form_alter().
  */
-function itr_yoast_seo_form_node_type_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function yoast_seo_form_node_type_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   /** @var NodeTypeInterface $type */
   $type = $form_state->getFormObject()->getEntity();
 
@@ -45,12 +45,12 @@ function itr_yoast_seo_form_node_type_form_alter(&$form, FormStateInterface $for
     '#type' => 'checkbox',
     '#title' => t('Enable'),
     '#description' => $description,
-    '#default_value' => $type->getThirdPartySetting('itr_yoast_seo', 'enabled', FALSE),
+    '#default_value' => $type->getThirdPartySetting('yoast_seo', 'enabled', FALSE),
     '#disabled' => $checkbox_disabled
   ];
 
   // Save our settings onto the entity
-  $form['#entity_builders'][] = 'itr_yoast_seo_form_node_type_form_builder';
+  $form['#entity_builders'][] = 'yoast_seo_form_node_type_form_builder';
 }
 
 /**
@@ -61,8 +61,8 @@ function itr_yoast_seo_form_node_type_form_alter(&$form, FormStateInterface $for
  * @param $form
  * @param \Drupal\Core\Form\FormStateInterface $form_state
  */
-function itr_yoast_seo_form_node_type_form_builder($entity_type, NodeTypeInterface $type, &$form, FormStateInterface $form_state) {
-  $type->setThirdPartySetting('itr_yoast_seo', 'enabled', $form_state->getValue('yoast_enable', FALSE));
+function yoast_seo_form_node_type_form_builder($entity_type, NodeTypeInterface $type, &$form, FormStateInterface $form_state) {
+  $type->setThirdPartySetting('yoast_seo', 'enabled', $form_state->getValue('yoast_enable', FALSE));
 
   // Look for an instance of the field
   /** @var FieldConfig $instance */
@@ -72,7 +72,7 @@ function itr_yoast_seo_form_node_type_form_builder($entity_type, NodeTypeInterfa
   /** @var EntityFormDisplay $form_display */
   $form_display = \Drupal\Core\Entity\Entity\EntityFormDisplay::load($display_id);
 
-  if ($type->getThirdPartySetting('itr_yoast_seo', 'enabled')) {
+  if ($type->getThirdPartySetting('yoast_seo', 'enabled')) {
     // Load or create the field storage configuration
     $field = \Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_node_yoast_seo');
     if (!$field) {
@@ -121,7 +121,7 @@ function itr_yoast_seo_form_node_type_form_builder($entity_type, NodeTypeInterfa
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function itr_yoast_seo_form_field_config_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function yoast_seo_form_field_config_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   /** @var FieldConfig $field_config */
   $field_config = $form_state->getFormObject()->getEntity();
   if ($field_config->getType() == 'yoast_seo') {
@@ -137,7 +137,7 @@ function itr_yoast_seo_form_field_config_edit_form_alter(&$form, \Drupal\Core\Fo
 /**
  * Implements hook_form_field_storage_config_edit_form_alter().
  */
-function itr_yoast_seo_form_field_storage_config_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+function yoast_seo_form_field_storage_config_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
   if ($form_state->getFormObject()->getEntity()->getType() == 'yoast_seo') {
     // Disble the cardinality option on the field storage settings form
     $form['cardinality_container']['#prefix'] = t('Yoast SEO fields must be singular');
@@ -151,15 +151,15 @@ function itr_yoast_seo_form_field_storage_config_edit_form_alter(&$form, \Drupal
 /**
  * Implements hook_form_node_form_alter().
  */
-function itr_yoast_seo_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function yoast_seo_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   /** @var EntityInterface $node */
   $node = $form_state->getFormObject()->getEntity();
   /** @var NodeType $type */
   $type = NodeType::load($node->bundle());
 
-  if ($type->getThirdPartySetting('itr_yoast_seo', 'enabled')) {
+  if ($type->getThirdPartySetting('yoast_seo', 'enabled')) {
     // Attach our custom Javascript, but we need the rendered ids for that
-    $form['#after_build'][] = 'itr_yoast_seo_node_form_after_build';
+    $form['#after_build'][] = 'yoast_seo_node_form_after_build';
   }
 }
 
@@ -170,14 +170,14 @@ function itr_yoast_seo_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateI
  * @param \Drupal\Core\Form\FormStateInterface $form_state
  * @return mixed
  */
-function itr_yoast_seo_node_form_after_build(&$form, FormStateInterface $form_state) {
+function yoast_seo_node_form_after_build(&$form, FormStateInterface $form_state) {
   /** @var Node $node */
   $node = $form_state->getFormObject()->getEntity();
 
   $yoast_service = \Drupal::getContainer()->get('yoast.config_service');
-  $form['#attached']['drupalSettings']['itr_yoast_seo'] = $yoast_service->getConfigration($form, $node);
-  $form['#attached']['library'][] = 'itr_yoast_seo/yoast_seo';
-  $form['#attached']['library'][] = 'itr_yoast_seo/init';
+  $form['#attached']['drupalSettings']['yoast_seo'] = $yoast_service->getConfigration($form, $node);
+  $form['#attached']['library'][] = 'yoast_seo/yoast_seo';
+  $form['#attached']['library'][] = 'yoast_seo/init';
 
   return $form;
 }

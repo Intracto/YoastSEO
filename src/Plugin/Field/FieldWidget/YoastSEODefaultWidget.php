@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Drupal\itr_yoast_seo\Plugin\Field\FieldWidget;
+namespace Drupal\yoast_seo\Plugin\Field\FieldWidget;
 
 
 use Drupal\Core\Ajax\AjaxResponse;
@@ -9,12 +9,12 @@ use Drupal\Core\Field\Annotation\FieldWidget;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\itr_yoast_seo\Ajax\RenderCommand;
+use Drupal\yoast_seo\Ajax\RenderCommand;
 
 /**
  * Class YoastSEODefaultWidget
  * Plugin implementation of the 'yoast_seo_default' widget
- * @package Drupal\itr_yoast_seo\Field\FieldWidget
+ * @package Drupal\yoast_seo\Field\FieldWidget
  *
  * @FieldWidget(
  *   id = "yoast_seo_default",
@@ -97,7 +97,7 @@ class YoastSEODefaultWidget extends WidgetBase {
       '#attributes' => ['id' => 'seo-status'],
     ];
 
-    $form['#attached']['library'][] = 'itr_yoast_seo/commands';
+    $form['#attached']['library'][] = 'yoast_seo/commands';
 
     return $element;
   }

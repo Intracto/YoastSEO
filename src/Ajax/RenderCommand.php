@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Drupal\itr_yoast_seo\Ajax;
+namespace Drupal\yoast_seo\Ajax;
 
 use Drupal\Core\Ajax\CommandInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\itr_yoast_seo\Service\EntityRenderService;
+use Drupal\yoast_seo\Service\EntityRenderService;
 
 class RenderCommand implements CommandInterface {
 

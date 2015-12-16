@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * itr_yoast_seo.install
+ * yoast_seo.install
  */
 
-function itr_yoast_seo_uninstall() {
+function yoast_seo_uninstall() {
   // Delete the field and all instances
   $field = \Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_node_yoast_seo');
   if ($field) {

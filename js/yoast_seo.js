@@ -2,10 +2,10 @@
 
     'use strict';
 
-    Drupal.behaviors.itr_yoast_seo = {
+    Drupal.behaviors.yoast_seo = {
 
         attach: function (context) {
-            if ((typeof window.YoastSEO.app == 'undefined') && (typeof drupalSettings.itr_yoast_seo != 'undefined')) {
+            if ((typeof window.YoastSEO.app == 'undefined') && (typeof drupalSettings.yoast_seo != 'undefined')) {
                 // Create analyzer arguments
                 YoastSEO.analyzerArgs = {
                     analyzer: true,
@@ -15,9 +15,9 @@
                     dynamicDelay: true,
                     multiKeyword: false,
                     targets: {
-                        output: drupalSettings.itr_yoast_seo.targets.output,
-                        overall: drupalSettings.itr_yoast_seo.targets.overall,
-                        snippet: drupalSettings.itr_yoast_seo.targets.snippet
+                        output: drupalSettings.yoast_seo.targets.output,
+                        overall: drupalSettings.yoast_seo.targets.overall,
+                        snippet: drupalSettings.yoast_seo.targets.snippet
                     },
                     snippetFields: {
                         title: "snippet_title",
@@ -25,26 +25,26 @@
                         meta: "snippet_meta"
                     },
                     sampleText: {
-                        url: drupalSettings.itr_yoast_seo.default_text.url,
-                        title: drupalSettings.itr_yoast_seo.default_text.page_title,
-                        keyword: drupalSettings.itr_yoast_seo.default_text.keyword,
-                        meta: drupalSettings.itr_yoast_seo.default_text.page_description
+                        url: drupalSettings.yoast_seo.default_text.url,
+                        title: drupalSettings.yoast_seo.default_text.page_title,
+                        keyword: drupalSettings.yoast_seo.default_text.keyword,
+                        meta: drupalSettings.yoast_seo.default_text.page_description
                     },
                     placeholderText: {
-                        title: drupalSettings.itr_yoast_seo.placeholder_text.title,
-                        description: drupalSettings.itr_yoast_seo.placeholder_text.description,
-                        url: drupalSettings.itr_yoast_seo.placeholder_text.url
+                        title: drupalSettings.yoast_seo.placeholder_text.title,
+                        description: drupalSettings.yoast_seo.placeholder_text.description,
+                        url: drupalSettings.yoast_seo.placeholder_text.url
                     },
                     fields: {
-                        keyword: drupalSettings.itr_yoast_seo.field_ids.focus_keyword,
-                        title: drupalSettings.itr_yoast_seo.field_ids.page_title,
-                        nodeTitle: drupalSettings.itr_yoast_seo.field_ids.node_title,
-                        meta: drupalSettings.itr_yoast_seo.field_ids.description,
-                        url: drupalSettings.itr_yoast_seo.field_ids.url
+                        keyword: drupalSettings.yoast_seo.field_ids.focus_keyword,
+                        title: drupalSettings.yoast_seo.field_ids.page_title,
+                        nodeTitle: drupalSettings.yoast_seo.field_ids.node_title,
+                        meta: drupalSettings.yoast_seo.field_ids.description,
+                        url: drupalSettings.yoast_seo.field_ids.url
                     },
-                    scoreElement: drupalSettings.itr_yoast_seo.field_ids.seo_status,
-                    contentElement: drupalSettings.itr_yoast_seo.field_ids.seo_content,
-                    baseRoot: drupalSettings.itr_yoast_seo.base_root
+                    scoreElement: drupalSettings.yoast_seo.field_ids.seo_status,
+                    contentElement: drupalSettings.yoast_seo.field_ids.seo_content,
+                    baseRoot: drupalSettings.yoast_seo.base_root
                 };
 
                 $(document).on('seo-content-refreshed', this.initYoast);

@@ -1,5 +1,5 @@
 # Schema for configuration files
-node.type.*.third_pary.itr_yoast_seo:
+node.type.*.third_pary.yoast_seo:
   type: mapping
   label: 'Per-content type Yoast SEO settings'
   mapping:

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Drupal\itr_yoast_seo\Plugin\Field\FieldType;
+namespace Drupal\yoast_seo\Plugin\Field\FieldType;
 
 
 use Drupal\Core\Annotation\Translation;
@@ -13,7 +13,7 @@ use Drupal\Core\TypedData\DataDefinition;
 /**
  * Class YoastSEOItem
  * Plugin implementation of the 'yoast_seo' field type
- * @package Drupal\itr_yoast\Plugin\Field\FieldType
+ * @package Drupal\yoast\Plugin\Field\FieldType
  *
  * @FieldType(
  *   id = "yoast_seo",

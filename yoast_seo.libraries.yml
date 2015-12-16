@@ -13,17 +13,17 @@ yoast_seo:
 commands:
   version: VERSION
   js:
-    js/itr_yoast_seo.commands.js: {}
+    js/yoast_seo.commands.js: {}
   dependencies:
     - core/drupal.ajax
 
 init:
   js:
-    js/itr_yoast_seo.drupal_scraper.js: {}
-    js/itr_yoast_seo.js: {}
+    js/yoast_seo.drupal_scraper.js: {}
+    js/yoast_seo.js: {}
   css:
     theme:
-      css/itr_yoast_seo.css: {}
+      css/yoast_seo.css: {}
   dependencies:
     - core/jquery
     - core/drupal

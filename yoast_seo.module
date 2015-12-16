@@ -170,7 +170,7 @@ function yoast_seo_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInter
  * @param \Drupal\Core\Form\FormStateInterface $form_state
  * @return mixed
  */
-function yoast_seo_node_form_after_build(&$form, FormStateInterface $form_state) {
+function yoast_seo_node_form_after_build($form, FormStateInterface &$form_state) {
   /** @var Node $node */
   $node = $form_state->getFormObject()->getEntity();
 
